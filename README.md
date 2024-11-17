@@ -24,6 +24,8 @@ To facilitate this, Danny has shared three datasets:
 
 Below is a brief overview of the datasets used in this analysis:
 
+![Entity Relationship](./images/Screenshot%202024-11-17%20at%203.00.46 PM.png)
+
 ### `sales`
 | Column Name  | Description                 |
 |--------------|-----------------------------|

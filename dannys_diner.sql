@@ -77,18 +77,19 @@ VALUES
    WHERE rn = 1;
    
    -- 4. What is the most purchased item on the menu and how many times was it purchased by all customers?
-	SELECT s.product_id, COUNT(s.product_id) AS purchased_count, m.product_name
-	FROM sales AS s
-	INNER JOIN menu AS m
-	ON s.product_id = m.product_id
-	GROUP BY s.product_id, m.product_name
-	ORDER BY purchased_count DESC
-	LIMIT 1;
+   SELECT s.product_id, COUNT(s.product_id) AS purchased_count, m.product_name
+   FROM sales AS s
+   INNER JOIN menu AS m
+   ON s.product_id = m.product_id
+   GROUP BY s.product_id, m.product_name
+   ORDER BY purchased_count DESC
+   LIMIT 1;
     
     -- 5. Which item was the most popular for each customer?
-    WITH popular_items as (SELECT customer_id, s.product_id,
+    WITH popular_items as (SELECT customer_id, 
+	        s.product_id,
 		RANK() OVER(PARTITION BY customer_id  ORDER BY COUNT(s.product_id) DESC) as rank_product,
-	    product_name
+	        product_name
     FROM sales as s
     INNER JOIN menu as m
     ON s.product_id = m.product_id
@@ -100,8 +101,11 @@ VALUES
     
     -- 6. Which item was purchased first by the customer after they became a member?
     WITH next_food_item as (SELECT customer_id, product_id
-    FROM (SELECT s.customer_id, s.product_id, s.order_date, m.join_date,
-    RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date ASC) as rn
+    FROM (SELECT s.customer_id, 
+	    s.product_id, 
+	    s.order_date, 
+	    m.join_date,
+    	    RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date ASC) as rn
     FROM sales as s
     INNER JOIN members as m
     ON s.customer_id = m.customer_id
@@ -115,7 +119,7 @@ VALUES
     ORDER BY customer_id;
     
     -- 7. Which item was purchased just before the customer became a member?
-	WITH next_food_item as (SELECT customer_id, product_id
+    WITH next_food_item as (SELECT customer_id, product_id
     FROM (SELECT s.customer_id, 
     s.product_id, 
     s.order_date, 
@@ -144,7 +148,7 @@ VALUES
     GROUP BY s.customer_id;
     
     -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
-	SELECT s.customer_id, 
+    SELECT s.customer_id, 
     SUM(CASE WHEN m.product_name != 'sushi' THEN 10*price ELSE 2*10*price END ) AS points
     FROM sales as s
     INNER JOIN menu as m
@@ -152,7 +156,7 @@ VALUES
     GROUP BY s.customer_id;
     
     -- 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
-	SELECT s.customer_id, 
+    SELECT s.customer_id, 
     SUM(2*10*price) AS points
     FROM sales as s
     INNER JOIN menu as m

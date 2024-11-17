@@ -2,6 +2,8 @@
 
 Welcome to the **Danny's Diner** case study repository! This project aims to analyze customer behavior and provide insights that can help Danny make data-driven decisions about his diner, specifically around enhancing the customer loyalty program.
 
+Check out the [challenge](https://8weeksqlchallenge.com/case-study-1/) for more details!
+
 ## Project Overview
 
 Danny wants to understand his customers better by analyzing their:
